@@ -3,7 +3,7 @@ import sys
 sys.path.append('./src/pypodio2/')
 from pypodio2 import api
 
-class MyGUI:
+class WorkspaceCheckerGUI:
 
     def __init__(self):
 
@@ -19,21 +19,19 @@ class MyGUI:
             self.password,    
         )
 
-        
-
         self.root = tk.Tk()
 
-        self.label = tk.Label(self.root, text="Your Message", font=('Arial, 18'))
-        self.label.pack(padx=10, pady=10)
-
-        self.textbox = tk.Text(self.root, height=5, font=('Arial', 16))
-        self.textbox.pack(padx=10, pady=10)
-
-        self.check = tk.Checkbutton(self.root, text="Show Messagebox", font=('Arial', 16))
+        self.btn = tk.Button(self.root, text="Click me", font=('Arial', 16), command=self.fetch_info)
+        self.btn.pack(padx=10, pady=10)
 
         self.root.mainloop()
+    
+    def fetch_info(self):
+        self.itemInfo = self.c.Item.find(2542371339)
+        self.displyItemInfo = tk.Label(self.root, text=f'Item name: {self.itemInfo["fields"][0]["values"][0]["value"]}', font=('Arial', 16))
+        self.displyItemInfo.pack(padx=10, pady=10)
 
-MyGUI()
+WorkspaceCheckerGUI()
 
 
 
