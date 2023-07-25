@@ -6,7 +6,6 @@ try:
 except ImportError:
     from urllib import urlencode
 
-
 class Area(object):
     """Represents a Podio Area"""
     def __init__(self, transport):
