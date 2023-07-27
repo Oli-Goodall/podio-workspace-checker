@@ -1,5 +1,10 @@
 {
     "python.analysis.extraPaths": [
-        "./src/pypodio2"
-    ]
+        "./src/pypodio2",
+        "./src/frontend"
+    ],
+    "[python]": {
+        "editor.defaultFormatter": "ms-python.black-formatter"
+    },
+    "python.formatting.provider": "none"
 }
