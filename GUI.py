@@ -1,5 +1,6 @@
 import tkinter as tk
 import backendProcesses
+import entryWithPlaceholder
 
 class WorkspaceCheckerGUI:
 
@@ -7,6 +8,10 @@ class WorkspaceCheckerGUI:
 
         #Defines the root, i.e. the window that opens when code is run
         self.root = tk.Tk()
+        self.root.geometry("500x300")
+
+        self.franchiseeSelectionInput = entryWithPlaceholder.EntryWithPlaceholder(self.root, "Start typing...")
+        self.franchiseeSelectionInput.pack(pady=20)
 
         #Adds button to the window
         self.btn = tk.Button(self.root, text="Click me", font=('Arial', 16), command=self.fetch_info)
