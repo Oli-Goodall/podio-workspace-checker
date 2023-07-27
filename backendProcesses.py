@@ -16,7 +16,7 @@ c = api.OAuthClient(
     password,    
 )
 
-#Retrieve the template workspace's app list data from Podio
+#Retrieve full app data for template workspace from Podio
 templateAppData = c.Application.list_in_space(8295229)
 
 #Extract the useful bits of data from templateAppData
@@ -24,5 +24,14 @@ templateAppList = []
 for app in templateAppData:
     templateAppList.append({'name': app['config']['name'], 'id': app['app_id']})
 
+#Retrieve full workspace data for org from Podio
+workspacesData = c.Space.find_all_for_org(301620)
 
-print(templateAppList)
+#Extract the useful bits of data from workspacesData
+franchiseeWorkspacesList = []
+for app in workspacesData:
+    if (app['name'][:3] == 'TAF' and app['name'][3].isalpha()):
+        franchiseeWorkspacesList.append({'name': app['name'], 'id': app['space_id']})
+
+
+
