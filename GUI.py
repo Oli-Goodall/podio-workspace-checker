@@ -1,5 +1,5 @@
 import tkinter as tk
-from backendProcesses import c
+import backendProcesses
 
 class WorkspaceCheckerGUI:
 
@@ -17,6 +17,6 @@ class WorkspaceCheckerGUI:
     
     #Adds functionality to the button to retrieve and display the title of a hard-coded Podio item
     def fetch_info(self):
-        self.itemInfo = c.Item.find(2542371339)
-        self.displyItemInfo = tk.Label(self.root, text=f'Item name: {self.itemInfo["fields"][0]["values"][0]["value"]}', font=('Arial', 16))
+        app_names_str = '\n'.join(app['name'] for app in backendProcesses.templateAppList)
+        self.displyItemInfo = tk.Label(self.root, text=f'Apps: {app_names_str}', font=('Arial', 16))
         self.displyItemInfo.pack(padx=10, pady=10)
