@@ -16,3 +16,13 @@ c = api.OAuthClient(
     password,    
 )
 
+#Retrieve the template workspace's app list data from Podio
+templateAppData = c.Application.list_in_space(8295229)
+
+#Extract the useful bits of data from templateAppData
+templateAppList = []
+for app in templateAppData:
+    templateAppList.append({'name': app['config']['name'], 'id': app['app_id']})
+
+
+print(templateAppList)
