@@ -11,13 +11,32 @@ class WorkspaceCheckerGUI:
             self.franchiseeListBox.delete(0, tk.END)
             for item in data:
                 self.franchiseeListBox.insert(tk.END, item)
+        
+        #Puts selected item into input field
+        def fillout(e):
+            self.franchiseeSelectionInput.delete(0, tk.END)
+            self.franchiseeSelectionInput.insert(0, self.franchiseeListBox.get(tk.ACTIVE))
+
+        #Shows only results that contain the string in the input field
+        def check(e):
+            typed = self.franchiseeSelectionInput.get()
+
+            if typed == '':
+                data = franchiseSpaceNames
+            else:
+                data = []
+                for item in franchiseSpaceNames:
+                    if typed.lower() in item.lower():
+                        data.append(item)
             
+            update(data)
+
         #Defines the root, i.e. the window that opens when code is run
         self.root = tk.Tk()
         self.root.geometry("500x300")
 
         #Displays an input field with placeholder
-        self.franchiseeSelectionInput = entryWithPlaceholder.EntryWithPlaceholder(self.root, "Start typing...")
+        self.franchiseeSelectionInput = entryWithPlaceholder.EntryWithPlaceholder(self.root, "Start typing location...")
         self.franchiseeSelectionInput.pack()
 
         #Displays listbox populated with franchisee workspaces
@@ -30,15 +49,12 @@ class WorkspaceCheckerGUI:
         #Add franchisee space names to listbox
         update(franchiseSpaceNames)
 
-        #Adds button to the window
-        self.btn = tk.Button(self.root, text="Click me", font=('Arial', 16), command=self.fetch_info)
-        self.btn.pack(padx=10, pady=10)
+        #Create a binding on the listbox onclick
+        self.franchiseeListBox.bind("<<ListboxSelect>>", fillout)
+
+        #Create a binding on the input field
+        self.franchiseeSelectionInput.bind("<KeyRelease>", check)
 
         #Tells the root window to render
         self.root.mainloop()
     
-    #Adds functionality to the button to retrieve and display the title of a hard-coded Podio item
-    def fetch_info(self):
-        app_names_str = '\n'.join(app['name'] for app in backendProcesses.templateAppList)
-        self.displyItemInfo = tk.Label(self.root, text=f'Apps: {app_names_str}', font=('Arial', 16))
-        self.displyItemInfo.pack(padx=10, pady=10)
