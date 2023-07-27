@@ -6,12 +6,29 @@ class WorkspaceCheckerGUI:
 
     def __init__(self):
 
+        #Update the listbox
+        def update(data):
+            self.franchiseeListBox.delete(0, tk.END)
+            for item in data:
+                self.franchiseeListBox.insert(tk.END, item)
+            
         #Defines the root, i.e. the window that opens when code is run
         self.root = tk.Tk()
         self.root.geometry("500x300")
 
+        #Displays an input field with placeholder
         self.franchiseeSelectionInput = entryWithPlaceholder.EntryWithPlaceholder(self.root, "Start typing...")
-        self.franchiseeSelectionInput.pack(pady=20)
+        self.franchiseeSelectionInput.pack()
+
+        #Displays listbox populated with franchisee workspaces
+        self.franchiseeListBox = tk.Listbox(self.root)
+        self.franchiseeListBox.pack()
+
+        #Retireve list of franchisee space names from Podio
+        franchiseSpaceNames = list(space['name'] for space in backendProcesses.franchiseeWorkspacesList)
+
+        #Add franchisee space names to listbox
+        update(franchiseSpaceNames)
 
         #Adds button to the window
         self.btn = tk.Button(self.root, text="Click me", font=('Arial', 16), command=self.fetch_info)
