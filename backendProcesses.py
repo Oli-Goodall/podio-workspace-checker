@@ -24,5 +24,8 @@ templateAppList = []
 for app in templateAppData:
     templateAppList.append({'name': app['config']['name'], 'id': app['app_id']})
 
+#print(templateAppList)
 
-print(templateAppList)
+listOfWorkspaces = c.Space.find_all_for_org(301620)
+print(listOfWorkspaces)
+
