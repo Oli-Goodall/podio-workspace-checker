@@ -1,8 +1,9 @@
 import tkinter as tk
 import backendProcesses
 import entryWithPlaceholder
+import popups
 
-class WorkspaceCheckerGUI:
+class LandingPage:
 
     def __init__(self):
 
@@ -47,8 +48,8 @@ class WorkspaceCheckerGUI:
         self.root.bind("<Button-1>", self.on_root_click)
         
         self.bottomFrame = tk.Frame(self.root)
-        self.submitButton = tk.Button(self.bottomFrame, text="Submit")
-        self.exitButton = tk.Button(self.bottomFrame, text="Exit")
+        self.submitButton = tk.Button(self.bottomFrame, text="Submit", command=self.handleSubmit)
+        self.exitButton = tk.Button(self.bottomFrame, text="Exit", command=self.handleExit)
         self.submitButton.pack(side=tk.LEFT)
         self.exitButton.pack(side=tk.RIGHT)
 
@@ -101,3 +102,10 @@ class WorkspaceCheckerGUI:
         # Set focus to the Entry widget when it gains focus
         self.franchiseeSelectionInput.focus_set()
         self.franchiseeSelectionInput.foc_in()
+
+    def handleSubmit(self):
+        popups.AddAppWindow(self.root).grab_set()
+            
+
+    def handleExit(self):
+        popups.ConfirmExitWindow(self.root).grab_set()
