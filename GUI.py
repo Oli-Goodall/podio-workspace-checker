@@ -10,9 +10,12 @@ class WorkspaceCheckerGUI:
         self.root = tk.Tk()
         self.root.geometry("500x300")
 
+        self.landingTitle = tk.Label(self.root, text='Select the franchise location you want to check:', font=("Arial", 20))
+        self.landingTitle.pack(pady=10)
+
         # Create the EntryWithPlaceholder widget without focus
         self.franchiseeSelectionInput = entryWithPlaceholder.EntryWithPlaceholder(self.root, "Start typing location...")
-        self.franchiseeSelectionInput.pack(pady=20)
+        self.franchiseeSelectionInput.pack()
 
         self.listboxFrame = tk.Frame(self.root)
         self.listboxScrollbar = tk.Scrollbar(self.listboxFrame, orient=tk.VERTICAL)
@@ -24,7 +27,6 @@ class WorkspaceCheckerGUI:
         # Hide listbox initially
         self.franchiseeListBox.pack_forget()
         self.listboxScrollbar.pack_forget()
-
 
         # Retrieve list of franchisee space names from Podio
         self.franchiseSpaceNames = [space['name'].split('Accountants', 1)[-1].strip() for space in backendProcesses.franchiseeWorkspacesList]
