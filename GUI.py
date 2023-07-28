@@ -10,11 +10,16 @@ class WorkspaceCheckerGUI:
         self.root = tk.Tk()
         self.root.geometry("500x300")
 
-        # Create the EntryWithPlaceholder widget without focus
-        self.franchiseeSelectionInput = entryWithPlaceholder.EntryWithPlaceholder(self.root, "Start typing location...")
-        self.franchiseeSelectionInput.pack(pady=20)
+        self.topFrame = tk.Frame(self.root)
+        self.landingTitle = tk.Label(self.topFrame, text='Select the franchise location you want to check:', font=("Arial", 20))
+        self.landingTitle.pack(pady=10)
 
-        self.listboxFrame = tk.Frame(self.root)
+        self.middleFrame = tk.Frame(self.root)
+        # Create the EntryWithPlaceholder widget without focus
+        self.franchiseeSelectionInput = entryWithPlaceholder.EntryWithPlaceholder(self.middleFrame, "Start typing location...")
+        self.franchiseeSelectionInput.pack()
+
+        self.listboxFrame = tk.Frame(self.middleFrame)
         self.listboxScrollbar = tk.Scrollbar(self.listboxFrame, orient=tk.VERTICAL)
         self.franchiseeListBox = tk.Listbox(self.listboxFrame, width=20, height=10, yscrollcommand=self.listboxScrollbar.set)
 
@@ -24,7 +29,6 @@ class WorkspaceCheckerGUI:
         # Hide listbox initially
         self.franchiseeListBox.pack_forget()
         self.listboxScrollbar.pack_forget()
-
 
         # Retrieve list of franchisee space names from Podio
         self.franchiseSpaceNames = [space['name'].split('Accountants', 1)[-1].strip() for space in backendProcesses.franchiseeWorkspacesList]
@@ -41,6 +45,16 @@ class WorkspaceCheckerGUI:
 
         # Set focus on the root when the window is clicked
         self.root.bind("<Button-1>", self.on_root_click)
+        
+        self.bottomFrame = tk.Frame(self.root)
+        self.submitButton = tk.Button(self.bottomFrame, text="Submit")
+        self.exitButton = tk.Button(self.bottomFrame, text="Exit")
+        self.submitButton.pack(side=tk.LEFT)
+        self.exitButton.pack(side=tk.RIGHT)
+
+        self.topFrame.pack()
+        self.middleFrame.pack()
+        self.bottomFrame.pack()
 
         # Tells the root window to render
         self.root.mainloop()
