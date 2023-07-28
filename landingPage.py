@@ -32,7 +32,7 @@ class LandingPage:
         self.listboxScrollbar.pack_forget()
 
         # Retrieve list of franchisee space names from Podio
-        self.franchiseSpaceNames = [space['name'].split('Accountants', 1)[-1].strip() for space in backendProcesses.franchiseeWorkspacesList]
+        self.franchiseSpaceNames = [{'id': space['id'], 'name': space['name'].split('Accountants', 1)[-1].strip()} for space in backendProcesses.franchiseeWorkspacesList]
 
         # Add franchisee space names to listbox
         self.update(self.franchiseSpaceNames)
@@ -73,12 +73,12 @@ class LandingPage:
         typed = self.franchiseeSelectionInput.get()
 
         if typed == '':
-            data = self.franchiseSpaceNames
+            data = [space['name'] for space in self.franchiseSpaceNames]  # Extract 'name' from each dictionary
         else:
             data = []
-            for item in self.franchiseSpaceNames:
-                if typed.lower() in item.lower():
-                    data.append(item)
+            for space in self.franchiseSpaceNames:
+                if typed.lower() in space['name'].lower():
+                    data.append(space['name'])
 
         self.update(data)
         # Show the listbox only when there are matching results and the input field has focus
@@ -104,8 +104,30 @@ class LandingPage:
         self.franchiseeSelectionInput.foc_in()
 
     def handleSubmit(self):
-        popups.AddAppWindow(self.root).grab_set()
-            
+        selected_name = self.franchiseeSelectionInput.get()
+
+        # Check if an item is selected from the listbox
+        if selected_name:
+            # Find the corresponding ID from self.franchiseSpaceNames
+            selected_id = None
+            for space in self.franchiseSpaceNames:
+                if space['name'] == selected_name:
+                    selected_id = space['id']
+                    break
+
+            if selected_id is not None:
+                # Fetch the comparisonAppData using the selected ID
+                comparison_data = backendProcesses.fetchComparisonAppData(selected_id)
+
+                # Create the AddAppWindow instance with the fetched comparisonAppData
+                add_app_window = popups.AddAppWindow(self.root, comparison_data)
+
+                # Display the window
+                add_app_window.grab_set()
+            else:
+                # Handle the case when the selected name does not have a corresponding ID
+                print("Error: Selected franchise name does not have a corresponding ID.")
+     
 
     def handleExit(self):
         popups.ConfirmExitWindow(self.root).grab_set()
