@@ -71,6 +71,27 @@ class WorkspaceCheckerGUI:
 
         #Create a binding on the input field
         self.franchiseeSelectionInput.bind("<KeyRelease>", check)
+
+                # Set focus on the root when the window is clicked
+        self.root.bind("<Button-1>", self.on_root_click)
+        self.franchiseeSelectionInput.bind("<FocusIn>", self.on_entry_focus_in)
+
+
+        # Tells the root window to render
+        self.root.mainloop()
+
+    def on_root_click(self, event):
+        # Set focus on the root window explicitly
+        self.root.focus_set()
+
+        # Hide the listbox and scrollbar when clicking outside the input field
+        self.franchiseeListBox.pack_forget()
+        self.listboxScrollbar.pack_forget()
+    
+    def on_entry_focus_in(self, event):
+        # Set focus to the Entry widget when it gains focus
+        self.franchiseeSelectionInput.focus_set()
+        self.franchiseeSelectionInput.foc_in()
         
         #Tells the root window to render
         self.root.mainloop()
