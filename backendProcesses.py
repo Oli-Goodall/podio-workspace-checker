@@ -27,7 +27,7 @@ for app in templateAppData:
 #Retrieve full app data for template workspace from Podio
 comparisonAppData = []
 
-def fetchComparisonAppData(id):
+def getFranchiseeAppList(id):
     comparisonAppData = c.Application.list_in_space(id)
     return comparisonAppData
 

@@ -117,7 +117,7 @@ class LandingPage:
 
             if selected_id is not None:
                 # Fetch the comparisonAppData using the selected ID
-                comparison_data = backendProcesses.fetchComparisonAppData(selected_id)
+                comparison_data = backendProcesses.getFranchiseeAppList(selected_id)
 
                 # Create the AddAppWindow instance with the fetched comparisonAppData
                 add_app_window = popups.AddAppWindow(self.root, comparison_data)
