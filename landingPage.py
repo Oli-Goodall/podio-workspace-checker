@@ -125,8 +125,8 @@ class LandingPage:
                 # Display the window
                 add_app_window.grab_set()
             else:
-                # Handle the case where the input does not match a valid location
-                tk.messagebox.showerror("Error", "Selected franchise name is not valid. Please select a valid franchise name.")
+                # Handle the case when the selected name does not have a corresponding ID
+                print("Error: Selected franchise name does not have a corresponding ID.")
      
 
     def handleExit(self):

@@ -9,26 +9,47 @@ class AddAppWindow(tk.Toplevel):
         self.title("Workspace App Manager")
 
         self.comparisonData = comparisonData
-        self.create_app_grid()
+        self.selected_apps = []  # To store the selected app names
 
-        self.closeButton = tk.Button(self, text="Close", command=self.destroy)
-        self.closeButton.grid(row=len(comparisonData), column=0, columnspan=2, padx=5, pady=5)
+        self.create_app_listbox()
+
+        self.add_button = tk.Button(self, text="Add", command=self.print_selected_apps)
+        self.add_button.grid(row=len(comparisonData), column=0, columnspan=2, padx=5, pady=5)
+
+        self.close_button = tk.Button(self, text="Close", command=self.destroy)
+        self.close_button.grid(row=len(comparisonData) + 1, column=0, columnspan=2, padx=5, pady=5)
 
     def add_app(self, app_name):
-        # Define what happens when the "Add" button is clicked for a specific app
-        print(f"App '{app_name}' added!")
+        # Define what happens when an app is selected in the listbox
+        if app_name not in self.selected_apps:
+            self.selected_apps.append(app_name)
+        else:
+            self.selected_apps.remove(app_name)
 
-    def create_app_grid(self):
-        for row, app in enumerate(self.comparisonData):
+    def print_selected_apps(self):
+        # Print the selected app names when the "Add" button is clicked
+        print("Selected apps:")
+        for app_name in self.selected_apps:
+            print(f" - {app_name}")
+
+    def create_app_listbox(self):
+        # Create the listbox and populate it with app names
+        self.app_listbox = tk.Listbox(self, selectmode="multiple", font=("Arial", 14))
+        self.app_listbox.grid(row=0, column=0, columnspan=2, padx=5, pady=5, sticky="nsew")
+
+        for app in self.comparisonData:
             app_name = app['config']['name']
+            self.app_listbox.insert(tk.END, app_name)
 
-            # Create the app name label (aligned to the left)
-            app_name_label = tk.Label(self, text=app_name, font=("Arial", 14), anchor="w")
-            app_name_label.grid(row=row, column=0, padx=5, pady=5, sticky="w")
+        # Bind the add_app method to the listbox selection event
+        self.app_listbox.bind('<<ListboxSelect>>', self.on_listbox_select)
 
-            # Create the "Add" button (aligned to the right)
-            add_button = tk.Button(self, text="Add", command=lambda name=app_name: self.add_app(name))
-            add_button.grid(row=row, column=1, padx=5, pady=5, sticky="e")
+    def on_listbox_select(self, event):
+        # Get the selected items from the listbox
+        selected_items = self.app_listbox.curselection()
+
+        # Update the selected_apps list based on the selected items
+        self.selected_apps = [self.app_listbox.get(index) for index in selected_items]
 
 class ConfirmExitWindow(tk.Toplevel):
     def __init__(self, parent):
