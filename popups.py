@@ -34,7 +34,7 @@ class AddAppWindow(tk.Toplevel):
 
     def create_app_listbox(self):
         # Create the listbox and populate it with app names
-        self.app_listbox = tk.Listbox(self, selectmode="multiple", font=("Arial", 14))
+        self.app_listbox = tk.Listbox(self, selectmode="extended", font=("Arial", 14))
         self.app_listbox.grid(row=0, column=0, columnspan=2, padx=5, pady=5, sticky="nsew")
 
         for app in self.comparisonData:
