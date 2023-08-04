@@ -24,6 +24,17 @@ templateAppList = []
 for app in templateAppData:
     templateAppList.append({'name': app['config']['name'], 'id': app['app_id']})
 
+#Retrieve full app data for template workspace from Podio
+comparisonAppData = []
+
+def getFranchiseeAppList(id):
+    comparisonAppData = c.Application.list_in_space(id)
+    return comparisonAppData
+
+
+#Extract the useful bits of data from templateAppData
+
+
 #Retrieve full workspace data for org from Podio
 workspacesData = c.Space.find_all_for_org(301620)
 
