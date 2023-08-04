@@ -17,32 +17,32 @@ c = api.OAuthClient(
 )
 
 #Retrieve full app data for template workspace from Podio
-templateAppData = c.Application.list_in_space(8295229)
+template_app_data = c.Application.list_in_space(8295229)
 
 #Extract the useful bits of data from templateAppData
-templateAppList = []
-for app in templateAppData:
-    templateAppList.append({'name': app['config']['name'], 'id': app['app_id']})
+template_app_list = []
+for app in template_app_data:
+    template_app_list.append({'name': app['config']['name'], 'id': app['app_id']})
 
 #Retrieve full app data for template workspace from Podio
-comparisonAppData = []
+comparison_app_data = []
 
-def getFranchiseeAppList(id):
-    comparisonAppData = c.Application.list_in_space(id)
-    return comparisonAppData
+def get_franchisee_app_list(id):
+    comparison_app_data = c.Application.list_in_space(id)
+    return comparison_app_data
 
 
 #Extract the useful bits of data from templateAppData
 
 
 #Retrieve full workspace data for org from Podio
-workspacesData = c.Space.find_all_for_org(301620)
+workspaces_data = c.Space.find_all_for_org(301620)
 
 #Extract the useful bits of data from workspacesData
-franchiseeWorkspacesList = []
-for app in workspacesData:
+franchisee_workspaces_list = []
+for app in workspaces_data:
     if (app['name'][:3] == 'TAF' and app['name'][3].isalpha()):
-        franchiseeWorkspacesList.append({'name': app['name'], 'id': app['space_id']})
+        franchisee_workspaces_list.append({'name': app['name'], 'id': app['space_id']})
 
 
 

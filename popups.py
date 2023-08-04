@@ -2,22 +2,22 @@ import tkinter as tk
 
 
 class AddAppWindow(tk.Toplevel):
-    def __init__(self, parent, comparisonData):
+    def __init__(self, parent, comparison_data):
         super().__init__(parent)
 
         self.geometry("400x300")  # Adjust the window size as needed
         self.title("Workspace App Manager")
 
-        self.comparisonData = comparisonData
+        self.comparison_data = comparison_data
         self.selected_apps = []  # To store the selected app names
 
         self.create_app_listbox()
 
         self.add_button = tk.Button(self, text="Add", command=self.print_selected_apps)
-        self.add_button.grid(row=len(comparisonData), column=0, columnspan=2, padx=5, pady=5)
+        self.add_button.grid(row=len(self.comparison_data), column=0, columnspan=2, padx=5, pady=5)
 
         self.close_button = tk.Button(self, text="Close", command=self.destroy)
-        self.close_button.grid(row=len(comparisonData) + 1, column=0, columnspan=2, padx=5, pady=5)
+        self.close_button.grid(row=len(self.comparison_data) + 1, column=0, columnspan=2, padx=5, pady=5)
 
     def add_app(self, app_name):
         # Define what happens when an app is selected in the listbox
@@ -37,7 +37,7 @@ class AddAppWindow(tk.Toplevel):
         self.app_listbox = tk.Listbox(self, selectmode="extended", font=("Arial", 14))
         self.app_listbox.grid(row=0, column=0, columnspan=2, padx=5, pady=5, sticky="nsew")
 
-        for app in self.comparisonData:
+        for app in self.comparison_data:
             app_name = app['config']['name']
             self.app_listbox.insert(tk.END, app_name)
 
@@ -60,7 +60,7 @@ class ConfirmExitWindow(tk.Toplevel):
         self.label = tk.Label(self, text="Are you sure you want to quit?", font=("Arial", 16))
         self.label.pack()
 
-        self.buttonFrame = tk.Frame(self, pady=10)
-        tk.Button(self.buttonFrame, text="Cancel", command=self.destroy).pack(expand=True, side=tk.LEFT)
-        tk.Button(self.buttonFrame, text="Quit", command=self.quit).pack(expand=True, side=tk.RIGHT)
-        self.buttonFrame.pack()
+        self.button_frame = tk.Frame(self, pady=10)
+        tk.Button(self.button_frame, text="Cancel", command=self.destroy).pack(expand=True, side=tk.LEFT)
+        tk.Button(self.button_frame, text="Quit", command=self.quit).pack(expand=True, side=tk.RIGHT)
+        self.button_frame.pack()
