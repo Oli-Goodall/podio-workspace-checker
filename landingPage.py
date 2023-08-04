@@ -83,6 +83,10 @@ class LandingPage:
         self.update(data)
         # Show the listbox only when there are matching results and the input field has focus
         if data and self.franchiseeSelectionInput.focus_get() == self.franchiseeSelectionInput:
+            if len(data) < 10:
+                self.franchiseeListBox.config(height=0)
+            else:
+                self.franchiseeListBox.config(height=10)
             self.listboxFrame.pack()
             self.franchiseeListBox.pack(side=tk.LEFT)
             self.listboxScrollbar.pack(side=tk.RIGHT, fill=tk.Y)
