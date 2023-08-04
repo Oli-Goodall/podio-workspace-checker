@@ -22,7 +22,8 @@ class LandingPage:
 
         self.listboxFrame = tk.Frame(self.middleFrame)
         self.listboxScrollbar = tk.Scrollbar(self.listboxFrame, orient=tk.VERTICAL)
-        self.franchiseeListBox = tk.Listbox(self.listboxFrame, width=20, height=10, yscrollcommand=self.listboxScrollbar.set)
+        self.franchiseeListBox = tk.Listbox(self.listboxFrame, width=19, height=10, yscrollcommand=self.listboxScrollbar.set)
+        self.error_text = tk.Label(self.middleFrame, text='Error: Please enter valid location')
 
         self.listboxScrollbar.config(command=self.franchiseeListBox.yview)
         self.listboxScrollbar.config(command=self.franchiseeListBox.yview)
@@ -130,7 +131,7 @@ class LandingPage:
                 add_app_window.grab_set()
             else:
                 # Handle the case when the selected name does not have a corresponding ID
-                print("Error: Selected franchise name does not have a corresponding ID.")
+                self.error_text.pack()
      
 
     def handleExit(self):
