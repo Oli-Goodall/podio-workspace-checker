@@ -13,7 +13,7 @@ class LandingPage:
 
         self.topFrame = tk.Frame(self.root)
         self.landingTitle = tk.Label(self.topFrame, text='Select the franchise location you want to check:', font=("Arial", 20))
-        self.landingTitle.pack(pady=10)
+        self.landingTitle.pack()
 
         self.middleFrame = tk.Frame(self.root)
         # Create the EntryWithPlaceholder widget without focus
@@ -25,7 +25,6 @@ class LandingPage:
         self.franchiseeListBox = tk.Listbox(self.listboxFrame, width=19, height=10, yscrollcommand=self.listboxScrollbar.set)
         self.error_text = tk.Label(self.middleFrame, text='Error: Please enter valid location')
 
-        self.listboxScrollbar.config(command=self.franchiseeListBox.yview)
         self.listboxScrollbar.config(command=self.franchiseeListBox.yview)
 
         # Hide listbox initially
@@ -55,8 +54,8 @@ class LandingPage:
         self.exitButton.pack(side=tk.RIGHT)
 
         self.topFrame.pack()
+        self.bottomFrame.pack(pady=10)
         self.middleFrame.pack()
-        self.bottomFrame.pack()
 
         # Tells the root window to render
         self.root.mainloop()
