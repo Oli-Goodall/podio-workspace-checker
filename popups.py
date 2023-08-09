@@ -37,7 +37,7 @@ class AddAppWindow(tk.Toplevel):
     def populate_listbox(self, data):
         self.app_listbox.delete(0, tk.END)
         for item in data:
-            self.app_listbox.insert(tk.END, item['config']['name'])
+            self.app_listbox.insert(tk.END, item)
 
     def create_app_listbox(self):
         # Create the listbox and populate it with app names
