@@ -32,7 +32,7 @@ class LandingPage:
         self.listbox_scrollbar.pack_forget()
 
         # Retrieve list of franchisee space names from Podio
-        self.franchise_space_names = [{'id': space['id'], 'name': space['name'].split('Accountants', 1)[-1].strip()} for space in backend_processes.franchisee_workspaces_list]
+        self.franchise_space_names = [{'id': space['id'], 'name': space['name'].split('Accountants', 1)[-1].strip()} for space in backend_processes.get_franchisee_locations()]
 
         # Add franchisee space names to listbox
         self.update(self.franchise_space_names)
@@ -117,11 +117,8 @@ class LandingPage:
                     break
 
             if selected_id is not None:
-                # Fetch the comparisonAppData using the selected ID
-                comparison_data = backend_processes.get_franchisee_app_list(selected_id)
-
-                # Create the AddAppWindow instance with the fetched comparisonAppData
-                add_app_window = popups.AddAppWindow(self.root, comparison_data)
+                # Create the AddAppWindow instance with the fetched data
+                add_app_window = popups.AddAppWindow(self.root, selected_id)
 
                 # Display the window
                 add_app_window.grab_set()

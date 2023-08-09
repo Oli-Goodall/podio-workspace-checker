@@ -1,23 +1,25 @@
 import tkinter as tk
+import backend_processes
 
 
 class AddAppWindow(tk.Toplevel):
-    def __init__(self, parent, comparison_data):
+    def __init__(self, parent, id):
         super().__init__(parent)
 
         self.geometry("400x300")  # Adjust the window size as needed
         self.title("Workspace App Manager")
 
-        self.comparison_data = comparison_data
+        self.missing_apps = backend_processes.compare_app_lists(id)
+
         self.selected_apps = []  # To store the selected app names
 
         self.create_app_listbox()
 
         self.add_button = tk.Button(self, text="Add", command=self.print_selected_apps)
-        self.add_button.grid(row=len(self.comparison_data), column=0, columnspan=2, padx=5, pady=5)
+        self.add_button.grid(row=len(self.missing_apps), column=0, columnspan=2, padx=5, pady=5)
 
         self.close_button = tk.Button(self, text="Close", command=self.destroy)
-        self.close_button.grid(row=len(self.comparison_data) + 1, column=0, columnspan=2, padx=5, pady=5)
+        self.close_button.grid(row=len(self.missing_apps) + 1, column=0, columnspan=2, padx=5, pady=5)
 
     def add_app(self, app_name):
         # Define what happens when an app is selected in the listbox
@@ -32,14 +34,16 @@ class AddAppWindow(tk.Toplevel):
         for app_name in self.selected_apps:
             print(f" - {app_name}")
 
+    def populate_listbox(self, data):
+        self.app_listbox.delete(0, tk.END)
+        for item in data:
+            self.app_listbox.insert(tk.END, item)
+
     def create_app_listbox(self):
         # Create the listbox and populate it with app names
         self.app_listbox = tk.Listbox(self, selectmode="extended", font=("Arial", 14))
         self.app_listbox.grid(row=0, column=0, columnspan=2, padx=5, pady=5, sticky="nsew")
-
-        for app in self.comparison_data:
-            app_name = app['config']['name']
-            self.app_listbox.insert(tk.END, app_name)
+        self.populate_listbox(self.missing_apps)
 
         # Bind the add_app method to the listbox selection event
         self.app_listbox.bind('<<ListboxSelect>>', self.on_listbox_select)
@@ -50,6 +54,7 @@ class AddAppWindow(tk.Toplevel):
 
         # Update the selected_apps list based on the selected items
         self.selected_apps = [self.app_listbox.get(index) for index in selected_items]
+    
 
 class ConfirmExitWindow(tk.Toplevel):
     def __init__(self, parent):
