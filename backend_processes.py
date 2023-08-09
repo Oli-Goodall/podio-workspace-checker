@@ -16,14 +16,6 @@ c = api.OAuthClient(
     password,    
 )
 
-# #Retrieve full app data for template workspace from Podio
-# template_app_data = c.Application.list_in_space(8295229)
-
-# #Extract the useful bits of data from templateAppData
-# template_app_list = []
-# for app in template_app_data:
-#     template_app_list.append({'name': app['config']['name'], 'id': app['app_id']})
-
 #Retrieve full workspace data for org from Podio
 def get_franchisee_locations():
     workspaces_data = c.Space.find_all_for_org(301620)
@@ -44,26 +36,4 @@ def compare_app_lists(id):
     for template_app in template_app_list:
         if template_app not in franchisee_apps:
             missing_apps.append(template_app)
-    print(template_app_list[0])
-    print(franchisee_apps[0])
-    print(missing_apps[0])
     return missing_apps
-
-def __eq__(self, other):
-    return self['name'] == other['name']
-     
-
-
-#Extract the useful bits of data from templateAppData
-
-
-
-#Extract the useful bits of data from workspacesData
-# franchisee_workspaces_list = []
-# for app in workspaces_data:
-#     if (app['name'][:3] == 'TAF' and app['name'][3].isalpha()):
-#         franchisee_workspaces_list.append({'name': app['name'], 'id': app['space_id']})
-
-
-
-
