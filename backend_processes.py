@@ -29,11 +29,19 @@ def compare_app_lists(id):
     franchisee_apps = []
     for app in c.Application.list_in_space(id):
         franchisee_apps.append(app['config']['name'])
-    template_app_list = []
+    template_app_full_data_list = c.Application.list_in_space(8295229)
+    template_app_names = []
     for app in c.Application.list_in_space(8295229):
-        template_app_list.append(app['config']['name'])
+        template_app_names.append(app['config']['name'])
     missing_apps = []
-    for template_app in template_app_list:
-        if template_app not in franchisee_apps:
-            missing_apps.append(template_app)
+    for template_app in template_app_names:
+        for template_app_full_data in template_app_full_data_list:
+            if template_app not in franchisee_apps:
+                if template_app == template_app_full_data['config']['name']:
+                    missing_apps.append(template_app_full_data)
     return missing_apps
+
+def add_app(app_id, space_id):
+    c.Application.install(app_id, {"space_id":space_id, "features":["items"]})
+    pass
+

@@ -167,6 +167,12 @@ class Application(Area):
             raise TypeError('Must be of type dict')
         attributes = json.dumps(attributes)
         return self.transport.POST(url='/app/', body=attributes, type='application/json')
+    
+    def install(self, app_id, attributes):
+        if not isinstance(attributes, dict):
+            raise TypeError('Must be of type dict')
+        attributes = json.dumps(attributes)
+        return self.transport.POST(url='/app/%s/install' %app_id, body=attributes, type='application/json')
 
     def add_field(self, app_id, attributes):
         """
