@@ -17,13 +17,16 @@ class AddAppWindow(tk.Toplevel):
 
         self.selected_apps = []  # To store the selected app names
 
-        self.create_app_listbox()
+        self.create_missing_app_listbox()
 
-        self.add_button = tk.Button(self, text="Add", command=self.add_selected_apps)
-        self.add_button.grid(row=len(self.missing_app_names), column=0, columnspan=2, padx=5, pady=5)
+        self.button_frame = tk.Frame(self)
+        self.button_frame.pack()
 
-        self.close_button = tk.Button(self, text="Close", command=self.destroy)
-        self.close_button.grid(row=len(self.missing_app_names) + 1, column=0, columnspan=2, padx=5, pady=5)
+        self.add_button = tk.Button(self.button_frame, text="Add", command=self.add_selected_apps)
+        self.add_button.pack(side=tk.LEFT)
+
+        self.close_button = tk.Button(self.button_frame, text="Close", command=self.destroy)
+        self.close_button.pack(side=tk.RIGHT)
 
     def add_selected_apps(self):
         # Add the selected app names when the "Add" button is clicked
@@ -31,16 +34,22 @@ class AddAppWindow(tk.Toplevel):
         for app in self.missing_apps:
             if app['config']['name'] in self.selected_apps:
                 backend_processes.add_app(app['app_id'], self.selected_workspace_id)
+                self.missing_app_names.remove(app['config']['name'])
+        self.populate_listbox(self.missing_app_names)
 
     def populate_listbox(self, data):
         self.app_listbox.delete(0, tk.END)
         for item in data:
             self.app_listbox.insert(tk.END, item)
 
-    def create_app_listbox(self):
+    def create_missing_app_listbox(self):
         # Create the listbox and populate it with app names
-        self.app_listbox = tk.Listbox(self, selectmode="extended", font=("Arial", 14))
-        self.app_listbox.grid(row=0, column=0, columnspan=2, padx=5, pady=5, sticky="nsew")
+        self.listbox_frame = tk.Frame(self)
+        self.listbox_frame.pack()
+        self.listbox_scrollbar = tk.Scrollbar(self.listbox_frame, orient=tk.VERTICAL)
+        self.listbox_scrollbar.pack(side=tk.RIGHT, fill=tk.Y)
+        self.app_listbox = tk.Listbox(self.listbox_frame, selectmode="extended", font=("Arial", 14), width=0, yscrollcommand=self.listbox_scrollbar.set)
+        self.app_listbox.pack(side=tk.LEFT)
         self.populate_listbox(self.missing_app_names)
 
         # Bind the add_app method to the listbox selection event
