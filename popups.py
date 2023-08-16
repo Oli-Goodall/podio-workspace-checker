@@ -15,7 +15,10 @@ class AddAppWindow(tk.Toplevel):
         for app in self.missing_apps:
             self.missing_app_names.append(app['config']['name'])
 
+        self.apps_to_add = []
+
         self.selected_missing_apps = []  # To store the selected app names
+        self.selected_apps_to_add = []
 
         self.app_selection_frame = tk.Frame(self)
         self.app_selection_frame.pack()
@@ -30,8 +33,6 @@ class AddAppWindow(tk.Toplevel):
         self.missing_apps_listbox = tk.Listbox(self.missing_apps_listbox_frame, selectmode="extended", font=("Arial", 14), width=10, yscrollcommand=self.missing_apps_listbox_scrollbar.set)
         self.missing_apps_listbox.pack(side=tk.LEFT)
 
-        self.populate_missing_apps_listbox(self.missing_app_names)
-
         self.missing_apps_listbox.bind('<<ListboxSelect>>', self.on_missing_apps_listbox_select)
 
         # Create the 'apps to add' listbox and populate it with app names
@@ -41,14 +42,16 @@ class AddAppWindow(tk.Toplevel):
         self.apps_to_add_listbox_scrollbar = tk.Scrollbar(self.apps_to_add_listbox_frame, orient=tk.VERTICAL)
         self.apps_to_add_listbox_scrollbar.pack(side=tk.RIGHT, fill=tk.Y)
 
-        self.apps_to_add_listbox = tk.Listbox(self.apps_to_add_listbox_frame, selectmode="extended", font=("Arial", 14), width=10, yscrollcommand=self.missing_apps_listbox_scrollbar.set)
+        self.apps_to_add_listbox = tk.Listbox(self.apps_to_add_listbox_frame, selectmode="extended", font=("Arial", 14), width=10, yscrollcommand=self.apps_to_add_listbox_scrollbar.set)
         self.apps_to_add_listbox.pack(side=tk.LEFT)
 
-        self.apps_to_add_listbox.bind('<<ListboxSelect>>', self.on_missing_apps_listbox_select)
+        self.apps_to_add_listbox.bind('<<ListboxSelect>>', self.on_apps_to_add_listbox_select)
+
+        self.populate_listboxes()
 
         # Create buttons that move items between listboxes
-        self.choose_app_button = tk.Button(self.app_selection_frame, text="+", command=self.move_to_add_list)
-        self.unchoose_app_button = tk.Button(self.app_selection_frame, text="-", command=self.move_to_add_list)
+        self.choose_app_button = tk.Button(self.app_selection_frame, text="+", command=self.move_to_apps_to_add_list)
+        self.unchoose_app_button = tk.Button(self.app_selection_frame, text="-", command=self.remove_from_apps_to_add_list)
 
         self.choose_app_button.pack()
         self.unchoose_app_button.pack()
@@ -56,25 +59,27 @@ class AddAppWindow(tk.Toplevel):
         self.button_frame = tk.Frame(self)
         self.button_frame.pack()
 
-        self.add_button = tk.Button(self.button_frame, text="Add", command=self.add_selected_apps)
+        self.add_button = tk.Button(self.button_frame, text="Add", command=self.add_chosen_apps)
         self.add_button.pack(side=tk.LEFT)
 
         self.close_button = tk.Button(self.button_frame, text="Close", command=self.destroy)
         self.close_button.pack(side=tk.RIGHT)
 
-    def add_selected_apps(self):
+    def add_chosen_apps(self):
         # Add the selected app names when the "Add" button is clicked
-        print("Selected apps:")
         for app in self.missing_apps:
-            if app['config']['name'] in self.selected_missing_apps:
+            if app['config']['name'] in self.apps_to_add:
                 backend_processes.add_app(app['app_id'], self.selected_workspace_id)
-                self.missing_app_names.remove(app['config']['name'])
-        self.populate_missing_apps_listbox(self.missing_app_names)
+                self.apps_to_add.remove(app['config']['name'])
+        self.populate_listboxes()
 
-    def populate_missing_apps_listbox(self, data):
+    def populate_listboxes(self):
         self.missing_apps_listbox.delete(0, tk.END)
-        for item in data:
+        self.apps_to_add_listbox.delete(0, tk.END)
+        for item in self.missing_app_names:
             self.missing_apps_listbox.insert(tk.END, item)
+        for item in self.apps_to_add:
+            self.apps_to_add_listbox.insert(tk.END, item)
 
     def on_missing_apps_listbox_select(self, event):
         # Get the selected items from the listbox
@@ -83,12 +88,26 @@ class AddAppWindow(tk.Toplevel):
         # Update the selected_apps list based on the selected items
         self.selected_missing_apps = [self.missing_apps_listbox.get(index) for index in selected_items]
 
-    def move_to_add_list(self):
+    def on_apps_to_add_listbox_select(self, event):
+        # Get the selected items from the listbox
+        selected_items = self.apps_to_add_listbox.curselection()
+
+        # Update the selected_apps list based on the selected items
+        self.selected_apps_to_add = [self.apps_to_add_listbox.get(index) for index in selected_items]
+
+    def move_to_apps_to_add_list(self):
         for app_name in self.selected_missing_apps:
-            self.apps_to_add_listbox.insert(tk.END, app_name)
-            #This part of the function needs looking at - delete from source list and repopulate?
-            self.missing_apps_listbox.delete(app_name)
-    
+            if app_name not in self.apps_to_add:
+                self.apps_to_add.append(app_name)
+                self.missing_app_names.remove(app_name)
+        self.populate_listboxes()
+
+    def remove_from_apps_to_add_list(self):
+        for app_name in self.selected_apps_to_add:
+            if app_name not in self.missing_app_names:
+                self.missing_app_names.append(app_name)
+                self.apps_to_add.remove(app_name)
+        self.populate_listboxes()
 
 class ConfirmExitWindow(tk.Toplevel):
     def __init__(self, parent):
