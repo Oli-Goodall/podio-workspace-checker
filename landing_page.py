@@ -9,7 +9,7 @@ class LandingPage:
 
         # Defines the root, i.e., the window that opens when code is run
         self.root = tk.Tk()
-        self.root.geometry("500x300")
+        self.root.geometry("500x500")
 
         self.top_frame = tk.Frame(self.root)
         self.landing_title = tk.Label(self.top_frame, text='Select the franchise location you want to check:', font=("Arial", 20))
@@ -23,7 +23,7 @@ class LandingPage:
         self.listbox_frame = tk.Frame(self.middle_frame)
         self.listbox_scrollbar = tk.Scrollbar(self.listbox_frame, orient=tk.VERTICAL)
         self.franchisee_list_box = tk.Listbox(self.listbox_frame, width=19, height=10, yscrollcommand=self.listbox_scrollbar.set)
-        self.error_text = tk.Label(self.middle_frame, text='Error: Please enter valid location')
+        self.error_text = tk.Label(self.middle_frame, text='Error: Please enter valid location', font=("Arial", 18))
 
         self.listbox_scrollbar.config(command=self.franchisee_list_box.yview)
 
