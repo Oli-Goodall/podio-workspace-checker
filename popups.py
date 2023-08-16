@@ -6,7 +6,7 @@ class AddAppWindow(tk.Toplevel):
     def __init__(self, parent, selected_workspace_id):
         super().__init__(parent)
 
-        self.geometry("500x500")  # Adjust the window size as needed
+        self.geometry("800x500")  # Adjust the window size as needed
         self.title("Workspace App Manager")
 
         self.selected_workspace_id = selected_workspace_id
@@ -30,7 +30,7 @@ class AddAppWindow(tk.Toplevel):
         self.missing_apps_listbox_scrollbar = tk.Scrollbar(self.missing_apps_listbox_frame, orient=tk.VERTICAL)
         self.missing_apps_listbox_scrollbar.pack(side=tk.RIGHT, fill=tk.Y)
 
-        self.missing_apps_listbox = tk.Listbox(self.missing_apps_listbox_frame, selectmode="extended", font=("Arial", 20), width=20, yscrollcommand=self.missing_apps_listbox_scrollbar.set)
+        self.missing_apps_listbox = tk.Listbox(self.missing_apps_listbox_frame, selectmode="extended", font=("Arial", 20), height=15, width=20, yscrollcommand=self.missing_apps_listbox_scrollbar.set)
         self.missing_apps_listbox.pack(side=tk.LEFT)
 
         self.missing_apps_listbox.bind('<<ListboxSelect>>', self.on_missing_apps_listbox_select)
@@ -42,7 +42,7 @@ class AddAppWindow(tk.Toplevel):
         self.apps_to_add_listbox_scrollbar = tk.Scrollbar(self.apps_to_add_listbox_frame, orient=tk.VERTICAL)
         self.apps_to_add_listbox_scrollbar.pack(side=tk.RIGHT, fill=tk.Y)
 
-        self.apps_to_add_listbox = tk.Listbox(self.apps_to_add_listbox_frame, selectmode="extended", font=("Arial", 20), width=20, yscrollcommand=self.apps_to_add_listbox_scrollbar.set)
+        self.apps_to_add_listbox = tk.Listbox(self.apps_to_add_listbox_frame, selectmode="extended", font=("Arial", 20), height=15, width=20, yscrollcommand=self.apps_to_add_listbox_scrollbar.set)
         self.apps_to_add_listbox.pack(side=tk.LEFT)
 
         self.apps_to_add_listbox.bind('<<ListboxSelect>>', self.on_apps_to_add_listbox_select)

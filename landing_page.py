@@ -9,7 +9,7 @@ class LandingPage:
 
         # Defines the root, i.e., the window that opens when code is run
         self.root = tk.Tk()
-        self.root.geometry("500x500")
+        self.root.geometry("500x300")
 
         self.top_frame = tk.Frame(self.root)
         self.landing_title = tk.Label(self.top_frame, text='Select the franchise location you want to check:', font=("Arial", 20))
@@ -50,7 +50,7 @@ class LandingPage:
         self.submit_button.pack(side=tk.LEFT)
         self.exit_button.pack(side=tk.RIGHT)
 
-        self.top_frame.pack()
+        self.top_frame.pack(pady=10)
         self.bottom_frame.pack(pady=10)
         self.middle_frame.pack()
 
