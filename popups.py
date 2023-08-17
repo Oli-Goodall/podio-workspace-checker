@@ -6,7 +6,7 @@ class AddAppWindow(tk.Toplevel):
     def __init__(self, parent, selected_workspace_id):
         super().__init__(parent)
 
-        self.geometry("800x500")
+        self.geometry("750x400")
         self.resizable(False, False)
         self.title("Workspace App Manager")
 
@@ -37,14 +37,17 @@ class AddAppWindow(tk.Toplevel):
         self.missing_apps_listbox_scrollbar = tk.Scrollbar(self.missing_apps_listbox_frame, orient=tk.VERTICAL)
         self.missing_apps_listbox_scrollbar.pack(side=tk.RIGHT, fill=tk.Y)
 
-        self.missing_apps_listbox = tk.Listbox(self.missing_apps_listbox_frame, selectmode="extended", font=("Arial", 20), height=15, width=20, yscrollcommand=self.missing_apps_listbox_scrollbar.set)
+        self.missing_apps_listbox = tk.Listbox(self.missing_apps_listbox_frame, selectmode="extended", font=("Arial", 20), width=20, yscrollcommand=self.missing_apps_listbox_scrollbar.set)
         self.missing_apps_listbox.pack(side=tk.LEFT)
 
         self.missing_apps_listbox.bind('<<ListboxSelect>>', self.on_missing_apps_listbox_select)
 
         # Create the 'apps to add' listbox and populate it with app names
         self.apps_to_add_listbox_frame = tk.Frame(self.app_selection_frame)
-        self.apps_to_add_listbox_frame.pack(side=tk.RIGHT, padx=50, pady=57)
+        self.apps_to_add_listbox_frame.pack(side=tk.RIGHT, padx=50, pady=10)
+
+        self.add_button = tk.Button(self.apps_to_add_listbox_frame, text="Add chosen apps >", command=self.add_chosen_apps)
+        self.add_button.pack(anchor=tk.NE)
 
         self.right_listbox_label = tk.Label(self.apps_to_add_listbox_frame, text="Apps to add", font=("Arial", 20))
         self.right_listbox_label.pack(pady=10)
@@ -52,7 +55,7 @@ class AddAppWindow(tk.Toplevel):
         self.apps_to_add_listbox_scrollbar = tk.Scrollbar(self.apps_to_add_listbox_frame, orient=tk.VERTICAL)
         self.apps_to_add_listbox_scrollbar.pack(side=tk.RIGHT, fill=tk.Y)
 
-        self.apps_to_add_listbox = tk.Listbox(self.apps_to_add_listbox_frame, selectmode="extended", font=("Arial", 20), height=15, width=20, yscrollcommand=self.apps_to_add_listbox_scrollbar.set)
+        self.apps_to_add_listbox = tk.Listbox(self.apps_to_add_listbox_frame, selectmode="extended", font=("Arial", 20), width=20, yscrollcommand=self.apps_to_add_listbox_scrollbar.set)
         self.apps_to_add_listbox.pack(side=tk.LEFT)
 
         self.apps_to_add_listbox.bind('<<ListboxSelect>>', self.on_apps_to_add_listbox_select)
@@ -60,7 +63,7 @@ class AddAppWindow(tk.Toplevel):
         self.populate_listboxes()
 
         self.selection_button_frame = tk.Frame(self.app_selection_frame)
-        self.selection_button_frame.pack(pady=200)
+        self.selection_button_frame.pack(pady=150)
 
         # Create buttons that move items between listboxes
         self.choose_app_button = tk.Button(self.selection_button_frame, text="+", command=self.move_to_apps_to_add_list)
@@ -68,9 +71,6 @@ class AddAppWindow(tk.Toplevel):
 
         self.choose_app_button.pack()
         self.unchoose_app_button.pack()
-
-        # self.add_button = tk.Button(self.button_frame, text="Add chosen apps", command=self.add_chosen_apps)
-        # self.add_button.pack(side=tk.RIGHT)
 
     def add_chosen_apps(self):
         # Add the selected app names when the "Add" button is clicked
