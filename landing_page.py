@@ -9,7 +9,7 @@ class LandingPage:
 
         # Defines the root, i.e., the window that opens when code is run
         self.root = tk.Tk()
-        self.root.geometry("500x300")
+        self.root.geometry("500x350")
         self.root.resizable(False, False)
 
         self.top_frame = tk.Frame(self.root)
@@ -119,7 +119,7 @@ class LandingPage:
 
             if selected_id is not None:
                 # Create the AddAppWindow instance with the fetched data
-                add_app_window = popups.AddAppWindow(self.root, selected_id)
+                add_app_window = popups.AddAppWindow(self.root, selected_id, selected_name)
 
                 # Display the window
                 add_app_window.grab_set()
