@@ -6,7 +6,8 @@ class AddAppWindow(tk.Toplevel):
     def __init__(self, parent, selected_workspace_id):
         super().__init__(parent)
 
-        self.geometry("800x500")  # Adjust the window size as needed
+        self.geometry("800x500")
+        self.resizable(False, False)
         self.title("Workspace App Manager")
 
         self.selected_workspace_id = selected_workspace_id
@@ -25,7 +26,7 @@ class AddAppWindow(tk.Toplevel):
 
        # Create the missing apps listbox and populate it with app names
         self.missing_apps_listbox_frame = tk.Frame(self.app_selection_frame)
-        self.missing_apps_listbox_frame.pack(side=tk.LEFT)
+        self.missing_apps_listbox_frame.pack(side=tk.LEFT, padx=50, pady=20)
 
         self.missing_apps_listbox_scrollbar = tk.Scrollbar(self.missing_apps_listbox_frame, orient=tk.VERTICAL)
         self.missing_apps_listbox_scrollbar.pack(side=tk.RIGHT, fill=tk.Y)
@@ -37,7 +38,7 @@ class AddAppWindow(tk.Toplevel):
 
         # Create the 'apps to add' listbox and populate it with app names
         self.apps_to_add_listbox_frame = tk.Frame(self.app_selection_frame)
-        self.apps_to_add_listbox_frame.pack(side=tk.RIGHT)
+        self.apps_to_add_listbox_frame.pack(side=tk.RIGHT, padx=50, pady=20)
 
         self.apps_to_add_listbox_scrollbar = tk.Scrollbar(self.apps_to_add_listbox_frame, orient=tk.VERTICAL)
         self.apps_to_add_listbox_scrollbar.pack(side=tk.RIGHT, fill=tk.Y)
@@ -49,9 +50,12 @@ class AddAppWindow(tk.Toplevel):
 
         self.populate_listboxes()
 
+        self.selection_button_frame = tk.Frame(self.app_selection_frame)
+        self.selection_button_frame.pack(pady=200)
+
         # Create buttons that move items between listboxes
-        self.choose_app_button = tk.Button(self.app_selection_frame, text="+", command=self.move_to_apps_to_add_list)
-        self.unchoose_app_button = tk.Button(self.app_selection_frame, text="-", command=self.remove_from_apps_to_add_list)
+        self.choose_app_button = tk.Button(self.selection_button_frame, text="+", font=("Arial", 20), height=5, width=5, command=self.move_to_apps_to_add_list)
+        self.unchoose_app_button = tk.Button(self.selection_button_frame, text="-", font=("Arial", 20), height=5, width=5, command=self.remove_from_apps_to_add_list)
 
         self.choose_app_button.pack()
         self.unchoose_app_button.pack()
@@ -114,6 +118,7 @@ class ConfirmExitWindow(tk.Toplevel):
         super().__init__(parent)
 
         self.geometry("300x100")
+        self.resizable(False, False)
         self.title("Quit?")
         self.label = tk.Label(self, text="Are you sure you want to quit?", font=("Arial", 16), pady=5)
         self.label.pack()

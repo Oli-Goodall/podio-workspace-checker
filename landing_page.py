@@ -10,6 +10,7 @@ class LandingPage:
         # Defines the root, i.e., the window that opens when code is run
         self.root = tk.Tk()
         self.root.geometry("500x300")
+        self.root.resizable(False, False)
 
         self.top_frame = tk.Frame(self.root)
         self.landing_title = tk.Label(self.top_frame, text='Select the franchise location you want to check:', font=("Arial", 20))
