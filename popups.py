@@ -26,7 +26,13 @@ class AddAppWindow(tk.Toplevel):
 
        # Create the missing apps listbox and populate it with app names
         self.missing_apps_listbox_frame = tk.Frame(self.app_selection_frame)
-        self.missing_apps_listbox_frame.pack(side=tk.LEFT, padx=50, pady=20)
+        self.missing_apps_listbox_frame.pack(side=tk.LEFT, padx=50, pady=10)
+
+        self.close_button = tk.Button(self.missing_apps_listbox_frame, text="< Back", command=self.destroy)
+        self.close_button.pack(anchor=tk.NW)
+
+        self.left_listbox_label = tk.Label(self.missing_apps_listbox_frame, text="Missing apps", font=("Arial", 20))
+        self.left_listbox_label.pack(pady=10)
 
         self.missing_apps_listbox_scrollbar = tk.Scrollbar(self.missing_apps_listbox_frame, orient=tk.VERTICAL)
         self.missing_apps_listbox_scrollbar.pack(side=tk.RIGHT, fill=tk.Y)
@@ -38,7 +44,10 @@ class AddAppWindow(tk.Toplevel):
 
         # Create the 'apps to add' listbox and populate it with app names
         self.apps_to_add_listbox_frame = tk.Frame(self.app_selection_frame)
-        self.apps_to_add_listbox_frame.pack(side=tk.RIGHT, padx=50, pady=20)
+        self.apps_to_add_listbox_frame.pack(side=tk.RIGHT, padx=50, pady=57)
+
+        self.right_listbox_label = tk.Label(self.apps_to_add_listbox_frame, text="Apps to add", font=("Arial", 20))
+        self.right_listbox_label.pack(pady=10)
 
         self.apps_to_add_listbox_scrollbar = tk.Scrollbar(self.apps_to_add_listbox_frame, orient=tk.VERTICAL)
         self.apps_to_add_listbox_scrollbar.pack(side=tk.RIGHT, fill=tk.Y)
@@ -54,20 +63,14 @@ class AddAppWindow(tk.Toplevel):
         self.selection_button_frame.pack(pady=200)
 
         # Create buttons that move items between listboxes
-        self.choose_app_button = tk.Button(self.selection_button_frame, text="+", font=("Arial", 20), height=5, width=5, command=self.move_to_apps_to_add_list)
-        self.unchoose_app_button = tk.Button(self.selection_button_frame, text="-", font=("Arial", 20), height=5, width=5, command=self.remove_from_apps_to_add_list)
+        self.choose_app_button = tk.Button(self.selection_button_frame, text="+", command=self.move_to_apps_to_add_list)
+        self.unchoose_app_button = tk.Button(self.selection_button_frame, text="-", command=self.remove_from_apps_to_add_list)
 
         self.choose_app_button.pack()
         self.unchoose_app_button.pack()
 
-        self.button_frame = tk.Frame(self)
-        self.button_frame.pack()
-
-        self.close_button = tk.Button(self.button_frame, text="Back", command=self.destroy)
-        self.close_button.pack(side=tk.LEFT)
-
-        self.add_button = tk.Button(self.button_frame, text="Add chosen apps", command=self.add_chosen_apps)
-        self.add_button.pack(side=tk.RIGHT)
+        # self.add_button = tk.Button(self.button_frame, text="Add chosen apps", command=self.add_chosen_apps)
+        # self.add_button.pack(side=tk.RIGHT)
 
     def add_chosen_apps(self):
         # Add the selected app names when the "Add" button is clicked
