@@ -141,7 +141,7 @@ class ConfirmAddWindow(tk.Toplevel):
         super().__init__(parent)
 
         self.geometry("400x300")
-        self.title("Confirm apps to add")
+        self.title("Confirm Apps To Add")
         self.resizable(False, False)
         self.message_width = self.winfo_screenwidth() - 30
         app_names_formatted = '\n'.join(selected_app_names)

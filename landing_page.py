@@ -9,7 +9,8 @@ class LandingPage:
 
         # Defines the root, i.e., the window that opens when code is run
         self.root = tk.Tk()
-        self.root.geometry("500x350")
+        self.root.title("Franchisee Workspace Tracker")
+        self.root.geometry("500x250")
         self.root.resizable(False, False)
 
         self.selected_index = ""
@@ -35,9 +36,9 @@ class LandingPage:
         self.submit_button.pack(side=tk.LEFT)
         self.exit_button.pack(side=tk.RIGHT)
 
-        self.top_frame.pack(pady=10)
+        self.top_frame.pack(pady=30)
         self.middle_frame.pack()
-        self.bottom_frame.pack(pady=10)
+        self.bottom_frame.pack(pady=30)
 
         # Tells the root window to render
         self.root.mainloop()
