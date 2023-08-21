@@ -26,17 +26,25 @@ def get_franchisee_locations():
     return franchisee_locations_list
 
 def compare_app_lists(id):
-    franchisee_apps = []
-    for app in c.Application.list_in_space(id):
-        franchisee_apps.append(app['config']['name'])
+    franchisee_apps = [app['config']['name'] for app in c.Application.list_in_space(id)]
+    
     template_app_full_data_list = c.Application.list_in_space(8295229)
-    template_app_names = []
-    for app in c.Application.list_in_space(8295229):
-        template_app_names.append(app['config']['name'])
+    template_app_names = [app['config']['name'] for app in template_app_full_data_list]
+    
     missing_apps = []
     for template_app in template_app_names:
-        for template_app_full_data in template_app_full_data_list:
-            if template_app not in franchisee_apps:
+        template_app_clean = template_app.replace(" ", "")
+        match_found = False
+        for franchisee_app in franchisee_apps:
+            franchisee_app_clean = franchisee_app.replace(" ", "")
+            if template_app_clean == franchisee_app_clean:
+                match_found = True
+                break
+            elif template_app_clean.endswith("XX") and template_app_clean[:-2] == franchisee_app_clean[:-2]:
+                match_found = True
+                break
+        if not match_found:
+            for template_app_full_data in template_app_full_data_list:
                 if template_app == template_app_full_data['config']['name']:
                     missing_apps.append(template_app_full_data)
     return missing_apps
