@@ -76,10 +76,11 @@ class AddAppWindow(tk.Toplevel):
 
     def handle_submit(self):
         if self.apps_to_add != []:
-            ConfirmAddWindow(self, self.apps_to_add, self.location_name).grab_set()
+            ConfirmAddWindow(self, self.apps_to_add, self.location_name, self.missing_apps, self.selected_workspace_id).grab_set()
         elif not self.no_apps_message:
             self.no_apps_message = tk.Label(self, text="No apps selected", font=("Arial", 20), anchor=tk.NE)
             self.no_apps_message.pack()
+
 
     def populate_listboxes(self):
         self.missing_apps_listbox.delete(0, tk.END)
@@ -137,14 +138,18 @@ class ConfirmExitWindow(tk.Toplevel):
         self.button_frame.pack()
 
 class ConfirmAddWindow(tk.Toplevel):
-    def __init__(self, parent, selected_app_names, target_workspace):
+    def __init__(self, parent, selected_apps_to_add, target_workspace, missing_apps, selected_workspace_id):
         super().__init__(parent)
+        self.selected_apps_to_add = selected_apps_to_add
+        self.target_workspace = target_workspace
+        self.missing_apps = missing_apps
+        self.selected_workspace_id = selected_workspace_id
 
         self.geometry("400x300")
         self.title("Confirm Apps To Add")
         self.resizable(False, False)
         self.message_width = self.winfo_screenwidth() - 30
-        app_names_formatted = '\n'.join(selected_app_names)
+        app_names_formatted = '\n'.join(selected_apps_to_add)
         self.label = tk.Message(self, text=f"Are you sure you want to add the following apps to the {target_workspace} workspace? \n{(app_names_formatted)}", font=("Arial", 16), pady=5, padx=10, width=350)
         self.label.pack()
 
@@ -160,9 +165,9 @@ class ConfirmAddWindow(tk.Toplevel):
         self.geometry(f"400x{new_height}")  # Set new window height
 
     def add_chosen_apps(self):
-    # Add the selected app names when the "Add" button is clicked
-        for app in AddAppWindow.missing_apps:
-            if app['config']['name'] in AddAppWindow.apps_to_add:
-                backend_processes.add_app(app['app_id'], AddAppWindow.selected_workspace_id)
-                AddAppWindow.apps_to_add.remove(app['config']['name'])
-        AddAppWindow.populate_listboxes()
+        for app in self.missing_apps:
+            if app['config']['name'] in self.selected_apps_to_add:
+                backend_processes.add_app(app['app_id'], self.selected_workspace_id)
+                self.selected_apps_to_add.remove(app['config']['name'])
+        self.destroy()
+        self.master.populate_listboxes()
